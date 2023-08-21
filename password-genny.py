@@ -4,9 +4,11 @@ import argparse
 import datetime
 
 def password_generator(companyName, size=0):
-    '''This function will take a company name and generate a password list'''
+    #This function will take a company name and generate a password list
     print(f"\nWORD: {args.company} ({len(args.company)} characters long)\n")
+    
     # Get Date
+    companyName = companyName.strip()
     now = datetime.datetime.now()
     year = str(now.year)
     yearLong = now.year
@@ -33,7 +35,21 @@ def password_generator(companyName, size=0):
         companyName.upper() + str(yearLong) + '!',
         companyName.title() + str(yearShort) + '!', 
         companyName.title() + str(yearLong) + '!',
-
+        
+        # Year 2022
+        companyName + '22',
+        companyName + '2022',
+        companyName.upper() + '22', 
+        companyName.upper() + '2022',
+        companyName.title() + '22', 
+        companyName.title() + '2022',
+        companyName + '22' + '!',
+        companyName + '2022' + '!',
+        companyName.upper() + '22' + '!', 
+        companyName.upper() + '2022' + '!',
+        companyName.title() + '22' + '!', 
+        companyName.title() + '2022' + '!',
+        
         # Year 2021
         companyName + '21',
         companyName + '2021',
@@ -99,7 +115,9 @@ def password_generator(companyName, size=0):
         companyName.replace("o", "0").replace("a", "4").replace("e", "3").replace("i", "1"), 
         companyName.replace("o", "0").replace("a", "4").replace("e", "3"), 
         companyName.replace("o", "0").replace("a", "4"), 
-        companyName.replace("o", "0"),  
+        companyName.replace("o", "0"),
+        
+        # Seasons and months
         'Spring' + str(yearShort), 
         'Summer' + str(yearShort), 
         'Autumn' + str(yearShort), 
@@ -185,7 +203,7 @@ def password_generator(companyName, size=0):
         'november', 
         'december', 
         'password'
-        ]
+    ]
     
     for e in password_list:
         if e not in unique_list:
@@ -197,17 +215,26 @@ def password_generator(companyName, size=0):
         if len(password) >= int(size):
             print(password)
 
-    output_file = companyName + '_generated_passwords.txt'
-    with open(output_file, 'w') as f:
+    # Fix the issue where the simple passwords from the 'Seasons and months' gets added multiple times.
+    output_file = str(datetime.date.today()) + '_generated_passwords.txt'
+    print("\n Saved in " + output_file)
+    with open(output_file, 'a') as f:
         for password in unique_list:
             f.write(password + '\n')
-
+            
     print(f'\nTotal Passwords Generated: {len(unique_list)}\n')
     
 parser = argparse.ArgumentParser()
-parser.add_argument('-c', '--company', help='Provide the comapnies name? (e.g. Google, Microsoft, NCCGroup')
+parser.add_argument('-c', '--company', help='Provide the comapnies name? (e.g. Google, Microsoft, Tesla')
 parser.add_argument('-s', '--size', help='Provide a minimum password length', required=False)
+parser.add_argument('-i', '--include', help='Include a list of passwords, to be mutated', required=False)
 args = parser.parse_args()
+
+if args.include:
+    print("\nMutating the given list " + args.include)
+    with open(args.include) as file:
+        for word in file:
+            password_generator(word)
 
 if args.company and args.size:
     password_generator(args.company, args.size)
@@ -215,3 +242,5 @@ elif args.company:
     password_generator(args.company)
 else:
     parser.print_help()
+
+
