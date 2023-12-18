@@ -216,7 +216,7 @@ def password_generator(companyName, size=0):
             print(password)
 
     # Fix the issue where the simple passwords from the 'Seasons and months' gets added multiple times.
-    output_file = str(datetime.date.today()) + '_generated_passwords.txt'
+    output_file = str(datetime.date.today()) + f'_{args.company}_generated_passwords.txt'
     print("\n Saved in " + output_file)
     with open(output_file, 'a') as f:
         for password in unique_list:
