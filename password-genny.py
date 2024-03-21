@@ -10,11 +10,16 @@ def password_generator(companyName, size=0):
     # Get Date
     companyName = companyName.strip()
     now = datetime.datetime.now()
-    year = str(now.year)
+    year = now.year
     yearLong = now.year
     yearShort = year[2:]
     nextYearLong = yearLong + 1
-    nextYearShort = int(yearShort) + 1
+    nextYearShort = yearShort + 1
+    yearBack1 = year - 1
+    yearBack2 = year - 2
+    yearBack3 = year - 3
+    yearBack4 = year - 4
+    yearBack5 = year - 5
 
     count = 0
 
